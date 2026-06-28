@@ -1,0 +1,22 @@
+.auth {
+  text-align: center;
+  margin: 20px;
+  background: #1a1a1a;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.auth input {
+  margin: 5px;
+  padding: 8px;
+  width: 200px;
+}
+
+.auth button {
+  margin: 5px;
+}
+
+#user-info {
+  margin-top: 10px;
+  color: lightgreen;
+}

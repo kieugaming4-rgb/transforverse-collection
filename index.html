@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transforverse Collection</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+
+  <h1>🔥 Transforverse Collection 🔥</h1>
+
+  <nav>
+    <a href="index.html">Trang Chủ</a>
+
+
+    <button class="logout-btn" onclick="logout()">
+      Đăng xuất
+    </button>
+  </nav>
+
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <h2>🔥TRANSFORVERSE COLLECTION🔥</h2>
+
+</section>
+
+<div id="foodContainer" class="card-container"></div>
+
+<footer class="footer">
+  
+
+
+<!-- FOOTER -->
+<footer class="footer">
+
+  <h2>⚡ Transforverse Reviewer ⚡</h2>
+
+  <p>
+    Website review mô hình Transformers Studio Series,
+    Yolopark và Age Of The Primes.
+  </p>
+
+  <p class="copyright">
+    © 2026 KieuGaming - All Rights Reserved
+  </p>
+
+</footer>
+
+<script>
+function logout(){
+  alert("Đã đăng xuất!");
+  window.location.href = "Login.html";
+}
+</script>
+
+<script type="module">
+
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+  getFirestore,
+  collection,
+  getDocs
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBMwUFAsTTrjXSrXKzqMW1rN02PViQbkIw",
+  authDomain: "kieuformers1023.firebaseapp.com",
+  projectId: "kieuformers1023",
+  storageBucket: "kieuformers1023.firebasestorage.app",
+  messagingSenderId: "1007989946372",
+  appId: "1:1007989946372:web:f8e5343219845bee331d51",
+  measurementId: "G-NJMLNYF6MP"
+};
+
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const foodContainer = document.getElementById("foodContainer");
+
+async function loadProducts() {
+
+  try {
+
+    foodContainer.innerHTML =
+      "<h2 style='color:white'>Đang tải dữ liệu...</h2>";
+
+    console.log("Đang kết nối Firestore...");
+
+const querySnapshot =
+await getDocs(collection(db, "Figure"));
+
+console.log("Collection Figure:", querySnapshot);
+console.log("Số document:", querySnapshot.size);
+
+    console.log("Số document:", querySnapshot.size);
+
+    foodContainer.innerHTML = "";
+
+    if(querySnapshot.empty){
+
+      foodContainer.innerHTML = `
+        <h2 style="
+          color:orange;
+          text-align:center;
+          width:100%;
+        ">
+          Không có dữ liệu trong collection Figure
+        </h2>
+      `;
+
+      return;
+    }
+
+    querySnapshot.forEach((doc) => {
+
+      const product = doc.data();
+
+      console.log("Document:", doc.id);
+      console.log(product);
+
+      foodContainer.innerHTML += `
+
+        <div class="card">
+
+          <img
+            src="${product.image || 'https://via.placeholder.com/400x400'}"
+            alt="${product.title || 'Transformer'}"
+          >
+
+          <h2>
+            ${product.title || "Chưa có tiêu đề"}
+          </h2>
+
+          <p>
+            ${product.review || "Chưa có review"}
+          </p>
+
+          <a href="${product.detail || '#'}">
+            <button>Xem Review</button>
+          </a>
+
+        </div>
+
+      `;
+
+    });
+
+  }
+  catch(error){
+
+    console.error("Firestore Error:", error);
+
+    foodContainer.innerHTML = `
+
+      <h2 style="
+        color:red;
+        text-align:center;
+        width:100%;
+      ">
+        Không thể tải dữ liệu Firestore
+      </h2>
+
+      <p style="
+        color:white;
+        text-align:center;
+      ">
+        ${error.message}
+      </p>
+
+    `;
+
+  }
+
+}
+
+loadProducts();
+
+</script>
+
+
+
+</script>
+
+</body>
+</html>
